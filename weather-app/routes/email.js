@@ -6,9 +6,7 @@ const Client = require("../object/Client");
 
 const emailController = require("../controller/emailController");
 
-// POST method route
 router.post("/send-email", emailController.sendVerificationEmail);
-
 router.get("/verify/:code", emailController.verifyEmail);
 
 module.exports = router;

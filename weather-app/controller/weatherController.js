@@ -1,27 +1,37 @@
 const getToDay = require("../utils/getToday");
 
+// Controller function to handle requests for weather data
 exports.getWeatherData = async function (req, res, next) {
-  /**
-   * Returns the current date in the format "YYYY-DD-MM".
-   *
-   * @return {string} The current date in the format "YYYY-DD-MM".
-   */
+  // Get the current day
   const startDay = getToDay();
+
+  // Extract the location query parameter from the request
   const locationQuery = req.query.location;
+
+  // Dynamically import the 'node-fetch' library
   import("node-fetch").then(async (nodeFetch) => {
     const fetch = nodeFetch.default;
     try {
+      // Construct the URL for the weather API request
       const url = `https://api.weatherapi.com/v1/forecast.json?q=${encodeURIComponent(
         locationQuery
       )}&days=4&dt=${startDay}&hour=10&key=7a5a6a5551d6431b9ca80528242203`;
+
+      // Fetch weather data from the API
       const response = await fetch(url);
+
+      // Check if the response is successful
       if (!response.ok) {
         throw new Error("Failed to fetch weather data");
       }
 
+      // Parse the JSON response
       const data = await response.json();
+
+      // Send the weather data in the response
       res.status(200).json(data);
     } catch (error) {
+      // Handle errors by logging them and sending an error response
       console.error(error);
       res.status(500).json({ error: "Failed to fetch weather data" });
     }
