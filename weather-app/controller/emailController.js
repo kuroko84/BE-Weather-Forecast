@@ -11,7 +11,9 @@ exports.sendVerificationEmail = async function (req, res, next) {
     const { to, location } = req.body;
 
     // Check if the email already exists in the database
-    const existingClient = await Client.findClientByEmail(to);
+    const client_t = new Client();
+    const existingClient = await client_t.findClientByEmail(to);
+
     if (existingClient) {
       // If the email already exists, check if it's activated
       if (existingClient.isActivated) {
