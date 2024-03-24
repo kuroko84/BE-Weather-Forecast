@@ -53,7 +53,7 @@ async function sendDailyEmail() {
 
 // Schedule daily email sending at 8:00 AM
 cron.schedule(
-  "23 15 * * *",
+  "10 19 * * *",
   () => {
     sendDailyEmail();
   },
