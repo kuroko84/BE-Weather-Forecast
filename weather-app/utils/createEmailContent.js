@@ -4,7 +4,7 @@
  * @param {object} weatherData - The weather data object containing current and forecast weather information.
  * @return {string} The HTML content for the email body.
  */
-function createEmailContent(weatherData) {
+function createEmailContent(weatherData, url) {
   // Extract current weather and forecast weather from the weather data object
   const currentWeather = weatherData.current;
   const forecastWeather = weatherData.forecast.forecastday;
@@ -27,6 +27,9 @@ function createEmailContent(weatherData) {
     htmlContent += `<p>Chance of Rain: ${day.day.daily_chance_of_rain}%</p>`;
     htmlContent += `<p>UV Index: ${day.day.uv}</p>`;
   });
+
+  // Add a link to the website in the email body
+  htmlContent += `<p><a href="${url}">View website</a></p>`;
 
   // Return the final HTML content for the email body
   return htmlContent;

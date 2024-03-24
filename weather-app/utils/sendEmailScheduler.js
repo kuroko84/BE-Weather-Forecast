@@ -39,7 +39,8 @@ async function sendDailyEmail() {
             throw new Error("Failed to fetch weather data"); // Error if fetch fails
           }
           const data = await response.json(); // Parse weather data
-          const htmlContent = createEmailContent(data); // Create email content
+          const visitLink = "https://weather-app-liard-iota.vercel.app/"; // Visit link
+          const htmlContent = createEmailContent(data, visitLink); // Create email content
           const to = client.email; // Client's email
           const email = new Email(from, to, subject, text, htmlContent); // Create email object
           await email.send(); // Send email

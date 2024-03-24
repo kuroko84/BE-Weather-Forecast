@@ -1,4 +1,5 @@
 const getToDay = require("../utils/getToday");
+const Weather = require("../object/Weather");
 
 // Controller function to handle requests for weather data
 exports.getWeatherData = async function (req, res, next) {
@@ -28,6 +29,29 @@ exports.getWeatherData = async function (req, res, next) {
       // Parse the JSON response
       const data = await response.json();
 
+      // Extract necessary fields from the API response
+
+      const dateW = data.location.localtime;
+      const name = data.location.name;
+      const country = data.location.country;
+      const condition = data.current.condition.text;
+      const icon_url = data.current.condition.icon;
+      const avgtemp_c = data.current.temp_c;
+      const maxwind_mph = data.current.wind_mph;
+      const avghumidity = data.current.humidity;
+
+      // Create a new Weather object
+      const weather = new Weather(
+        dateW,
+        name,
+        country,
+        condition,
+        icon_url,
+        avgtemp_c,
+        maxwind_mph,
+        avghumidity
+      );
+      await weather.insertWeather();
       // Send the weather data in the response
       res.status(200).json(data);
     } catch (error) {
