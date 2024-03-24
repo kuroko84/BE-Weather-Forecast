@@ -90,6 +90,28 @@ class Client {
       console.log("Connection to MongoDB closed");
     }
   }
+  async findClientByEmail(email) {
+    const client = db.getClient();
+    try {
+      // Kết nối tới MongoDB
+      await client.connect();
+      console.log("Connected to MongoDB");
+
+      // Tìm kiếm client với địa chỉ email
+      const database = client.db("test");
+      const clientsCollection = database.collection("clients");
+      const query = { email: email };
+      const clientFound = await clientsCollection.findOne(query);
+      return clientFound;
+    } catch (error) {
+      console.error("Error finding client by email:", error);
+      return null;
+    } finally {
+      // Đóng kết nối
+      await client.close();
+      console.log("Connection to MongoDB closed");
+    }
+  }
 }
 
 module.exports = Client;
